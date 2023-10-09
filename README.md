@@ -13,7 +13,14 @@
 
 ## Fonctionnement
 
+### Lancement de l'API
 * Ouvrez une console de commande et naviguez jusqu'à ce dossier
-* Executez ```flask run```
+* Executez ```python -m http.server 8000```
+* Attendez que le serveur se lance
+* Dans votre navigateur, allez sur ```http://127.0.0.1:8000```
+
+### Lancement du client
+* Ouvrez une console de commande et naviguez jusqu'au dossier ```client```
+* Executez ```python app.py```
 * Attendez que le serveur se lance
 * Dans votre navigateur, allez sur ```http://127.0.0.1:5000/get_summary/{id}``` en remplacant {id} par l'id du véhicule recherché
