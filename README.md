@@ -3,6 +3,7 @@
 ## Pré-requis
 
 * Python 3
+* https://wkhtmltopdf.org/downloads.html
 
 ## Installation
 
