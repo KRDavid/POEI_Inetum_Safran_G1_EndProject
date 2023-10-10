@@ -30,9 +30,12 @@
     <div id="tableDesMatieres">
         <h3>Table des matières</h3>
         <ul>
-            <li><a href="">Résumé</a>3</li>
-            <li><a href="">Liste des incident et status des incidents</a>4</li>
-            <li><a href="">Liste des détaillé des incidents</a>5</li>
+            <li><a href="#resume">Résumé</a>3</li>
+            <li><a href="#incidents">Liste des incident et status des incidents</a>4</li>
+            <li><a href="#incidents-details">Liste des détaillé des incidents</a>5</li>
+            {% for post in vehicule.posts_distinct %}
+                <li><a href="#{{post[1]}}">Incidents du poste de travail {{post[0]}}</a></li>
+            {% endfor %}
         </ul>
     </div>
     <div id="resume">
@@ -56,20 +59,25 @@
             <tbody>
                 {% for incident in vehicule.incidents %}
                 <tr>
-                    <td>{{ incident.id }}</td>
-                    <td>{{ incident.desc }}</td>
-                    <td>{{ incident.etat }}</td>
+                    <td>{{ incident[0] }}</td>
+                    <td>{{ incident[1] }}</td>
+                    {% if incident[2] == "OPEN" %}
+                        <td style="background-color: red;">{{ incident[2] }}</td>
+                    {% else %}
+                        <td style="background-color: green;">{{ incident[2] }}</td>
+                    {% endif %}
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-    <!-- <div id="incidents-details">
+    <div id="incidents-details">
         <h3>Liste détaillé des incidents</h3>
         <p>Ce chapitre contient la liste des incidents déclarés par poste de travail</p>
-        <h3>Poste de travail {posteDeTravail.description}</h3>
+        {% for post in vehicule.posts_distinct %}
+        <h3>Poste de travail {{post[0]}}</h3>
         <p>Le tableau ci-dessous montre la liste des incidents déclarés sur le poste de travail 
-            {posteDeTravail.description} pour le véhicule {vehicule.desc} :</p>
+            {{post[1]}} pour le véhicule {{vehicule.desc}} :</p>
             <table border="1">
                 <thead>
                     <tr>
@@ -78,16 +86,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for incident in vehicule.incidents %}
-                    <tr>
-                        <td>{{ incident.id }}</td>
-                        <td>{{ incident.description }}</td>
-                        <td>{{ incident.status }}</td>
-                    </tr>
+                    {% for incident in vehicule.posts %}
+                        {% if incident[2] == post[0] %}
+                            <tr>
+                                <td>{{ incident[0] }}</td>
+                                <td>{{ incident[1] }}</td>
+                            </tr>
+                        {% endif %}
                     {% endfor %}
                 </tbody>
             </table>
-    </div> -->
+        {% endfor %}
+    </div>
 </body>
 
 </html>
