@@ -9,8 +9,8 @@ def create_pdf(data):
     template = templateEnv.get_template(TEMPLATE_FILE)
     outputText = template.render(vehicule=data)
 
-    filename = f"{data['desc']}-{str(datetime.now().date())}"
-
+    filename = f"{data['desc']}-{str(datetime.now().date())}".replace('\n', '')
+    print(filename)
     with open(f'./output/{filename}.html', 'w', encoding="utf-8") as html_file:
         html_file.write(outputText)
 

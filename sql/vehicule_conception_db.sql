@@ -26,8 +26,7 @@ CREATE TABLE IF NOT EXISTS "incident" (
 	PRIMARY KEY("incident_id" AUTOINCREMENT),
 	FOREIGN KEY("ordre") REFERENCES "ordre"("ordre_id")
 );
-INSERT INTO "vehicule" ("vehicule_id","vehicule_desc") VALUES (0,'vehicule4
-');
+INSERT INTO "vehicule" ("vehicule_id","vehicule_desc") VALUES (0,'vehicule4');
 INSERT INTO "vehicule" ("vehicule_id","vehicule_desc") VALUES (1,'vehicule1');
 INSERT INTO "vehicule" ("vehicule_id","vehicule_desc") VALUES (2,'vehicule2');
 INSERT INTO "vehicule" ("vehicule_id","vehicule_desc") VALUES (3,'vehicule3');
