@@ -17,22 +17,21 @@ fetch(API_URL + '/get_vehicules')
         console.error("Erreur lors de la récupération des véhicules:", error);
     });
 
-vehicleForm.addEventListener('submit', function(event) {
+vehicleForm.addEventListener('submit', function (event) {
     event.preventDefault();
     const selectedVehicleId = vehicleDropdown.value;
+    console.log('pomme')
+    fetch(`${API_URL}/get_summary/${selectedVehicleId}`, { method: 'GET' })
+        .then(response => response.text())
+        .then(filename => {
+            console.log('Nom du fichier:', filename);
 
-    fetch(`${API_URL}/get_summary/${selectedVehicleId}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Réponse du serveur:', data);
-        // Traitez la réponse ici, par exemple en affichant un message à l'utilisateur
-    })
-    .catch(error => {
-        console.error('Erreur lors de la soumission:', error);
-    });
+            const downloadBox = document.getElementById('downloadBox');
+            const linkElement = document.getElementById('downloadLink');
+            linkElement.href = `${API_URL}${filename}`;
+            downloadBox.style.display = 'block';    
+        })
+        .catch(error => {
+            console.error('Erreur lors de la soumission:', error);
+        });
 });
