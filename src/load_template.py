@@ -11,7 +11,7 @@ def create_pdf(data):
 
     filename = f"{data['desc']}-{str(datetime.now().date())}"
 
-    with open(f'{filename}.html', 'w', encoding="utf-8") as html_file:
+    with open(f'./output/{filename}.html', 'w', encoding="utf-8") as html_file:
         html_file.write(outputText)
 
     options = {
@@ -22,4 +22,6 @@ def create_pdf(data):
         'no-outline': None,
         'allow': ['./template/assets/logo.jpg',],
     }
-    pdfkit.from_file(f'{filename}.html',f'{filename}.pdf', options=options)
+    
+    pdfkit.from_file(f'./output/{filename}.html',f'./output/{filename}.pdf', options=options)
+    return f'/download/{filename}'
