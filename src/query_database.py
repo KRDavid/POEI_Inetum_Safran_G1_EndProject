@@ -30,9 +30,11 @@ def get_datas(cur, id):
     return_response["posts"] = data
 
     posts_distinct = []
+    already_done = []
 
     for elem in data:
-        if elem[2] not in posts_distinct:
+        if elem[2] not in already_done:
+            already_done.append(elem[2])
             posts_distinct.append([elem[2], elem[3]])
     
     return_response["posts_distinct"] = posts_distinct
