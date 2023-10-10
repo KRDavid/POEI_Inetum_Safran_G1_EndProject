@@ -29,11 +29,11 @@ def get_datas(cur, id):
     data = res.fetchall()
     return_response["posts"] = data
 
-    posts_distinct = {}
+    posts_distinct = []
 
     for elem in data:
         if elem[2] not in posts_distinct:
-            posts_distinct[elem[2]] = [elem[2], elem[3]]
+            posts_distinct.append([elem[2], elem[3]])
     
     return_response["posts_distinct"] = posts_distinct
     
