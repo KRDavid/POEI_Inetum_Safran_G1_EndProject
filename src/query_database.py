@@ -9,7 +9,7 @@ def get_datas(cur, id):
 
     res = cur.execute(query, (str(id)))
     data = res.fetchall()
-    return_response["desc"] = data
+    return_response["desc"] = data[0][0]
 
 
     # Fetching data for first table
@@ -22,20 +22,19 @@ def get_datas(cur, id):
 
 
     # Fetching data for second table
-    with open("./sql/return_posts.sql", 'r') as file:
+    with open("./sql/get_incidents_on_posts.sql", 'r') as file:
         query = file.read()
 
     res = cur.execute(query, (str(id)))
     data = res.fetchall()
     return_response["posts"] = data
 
+    posts_distinct = []
 
-    # Fetching data for third table
-    with open("./sql/select_incident.sql", 'r') as file:
-            query = file.read()
-
-    res = cur.execute(query, (str(id)))
-    data = res.fetchall()
-    return_response["selected_incidents"] = data
+    for elem in data:
+        if elem[2] not in posts_distinct:
+            posts_distinct.append(elem[2])
+    
+    return_response["posts_distinct"] = posts_distinct
     
     return return_response
