@@ -1,4 +1,5 @@
 from jinja2 import Environment, FileSystemLoader
+from datetime import datetime
 import pdfkit
 
 def create_pdf(data):
@@ -8,17 +9,17 @@ def create_pdf(data):
     template = templateEnv.get_template(TEMPLATE_FILE)
     outputText = template.render(vehicule=data)
 
-    html_file = open('output.html', 'w', encoding="utf-8")
-    html_file.write(outputText)
-    html_file.close()
+    filename = f"{data['desc']}-{str(datetime.now().date())}"
+
+    with open(f'{filename}.html', 'w', encoding="utf-8") as html_file:
+        html_file.write(outputText)
 
     options = {
-        'header-html': './header.html',
+        'header-html': './template/header.html',
         'footer-right': '[page]',
         'margin-top': '50mm',
-        'margin-bottom': '30mm',
+        'margin-bottom': '20mm',
         'no-outline': None,
-        'allow': ['./logo.jpg',],
+        'allow': ['./template/assets/logo.jpg',],
     }
-
-    pdfkit.from_file('output.html', 'output.pdf', options=options)
+    pdfkit.from_file(f'{filename}.html',f'{filename}.pdf', options=options)

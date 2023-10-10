@@ -6,11 +6,8 @@ from flask_cors import CORS
 
 from src import load_template, query_database
 
-
-
 app = Flask(__name__)
 CORS(app)
-
 
 
 @app.route('/get_vehicules/')
@@ -36,9 +33,10 @@ def generate_pdf_summary_file(id: int):
     cur = con.cursor()
 
     data = query_database.get_datas(cur, id)
-
     response = json.dumps(data)
     con.close()
+
+    load_template.create_pdf(data)
     return response
 
 if __name__ == '__main__':
