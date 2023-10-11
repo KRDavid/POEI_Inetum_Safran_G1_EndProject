@@ -2,10 +2,10 @@ const API_URL = 'http://127.0.0.1:5000';
 const vehicleDropdown = document.getElementById('vehicleDropdown');
 const vehicleForm = document.getElementById('vehicleForm');
 
+// Charge la liste des véhicules dans le menu déroulant
 fetch(API_URL + '/get_vehicules')
     .then(response => response.json())
     .then(data => {
-        console.log(data);
         data.forEach(vehicle => {
             const option = document.createElement('option');
             option.value = vehicle.id;
@@ -13,25 +13,20 @@ fetch(API_URL + '/get_vehicules')
             vehicleDropdown.appendChild(option);
         });
     })
-    .catch(error => {
-        console.error("Erreur lors de la récupération des véhicules:", error);
-    });
+    .catch(error => console.error("Erreur lors de la récupération des véhicules:", error));
 
+// Gère la soumission du formulaire
 vehicleForm.addEventListener('submit', function (event) {
     event.preventDefault();
+
     const selectedVehicleId = vehicleDropdown.value;
-    console.log('pomme')
-    fetch(`${API_URL}/get_summary/${selectedVehicleId}`, { method: 'GET' })
+    fetch(`${API_URL}/get_summary/${selectedVehicleId}`)
         .then(response => response.text())
         .then(filename => {
-            console.log('Nom du fichier:', filename);
-
             const downloadBox = document.getElementById('downloadBox');
             const linkElement = document.getElementById('downloadLink');
             linkElement.href = `${API_URL}${filename}`;
             downloadBox.style.display = 'block';    
         })
-        .catch(error => {
-            console.error('Erreur lors de la soumission:', error);
-        });
+        .catch(error => console.error('Erreur lors de la soumission:', error));
 });

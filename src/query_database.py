@@ -1,42 +1,34 @@
 import pandas as pd
 
 def get_datas(cur, id):
-    return_response = {}
+    """
+    Récupère les données de la base en fonction de l'ID fourni.
 
-    # Fetching data for front page
-    with open("./sql/return_desc.sql", 'r') as file:
-        query = file.read()
+    Args:
+    - cur : Curseur de la connexion à la base de données
+    - id : Identifiant pour lequel récupérer les données
 
-    res = cur.execute(query, (str(id)))
-    data = res.fetchall()
-    return_response["desc"] = data[0][0]
-
-
-    # Fetching data for first table
-    with open("./sql/return_all_incidents.sql", 'r') as file:
-        query = file.read()
-
-    res = cur.execute(query, (str(id)))
-    data = res.fetchall()
-    return_response["incidents"] = data
-
-
-    # Fetching data for second table
-    with open("./sql/get_incidents_on_posts.sql", 'r') as file:
-        query = file.read()
-
-    res = cur.execute(query, (str(id)))
-    data = res.fetchall()
-    return_response["posts"] = data
-
-    posts_distinct = []
-    already_done = []
-
-    for elem in data:
-        if elem[2] not in already_done:
-            already_done.append(elem[2])
-            posts_distinct.append([elem[2], elem[3]])
+    Returns:
+    - Dictionnaire contenant différentes données récupérées
+    """
     
-    return_response["posts_distinct"] = posts_distinct
+    # Récupère les données en utilisant le SQL depuis un fichier
+    def fetch_data_from_file(file_path, cur, id):
+        with open(file_path, 'r') as file:
+            query = file.read()
+        res = cur.execute(query, [str(id)])
+        return res.fetchall()
+
+    # Récupération des données pour la page de garde
+    return_response = {
+        "desc": fetch_data_from_file("./sql/return_desc.sql", cur, id)[0][0],
+        "incidents": fetch_data_from_file("./sql/return_all_incidents.sql", cur, id),
+        "posts": fetch_data_from_file("./sql/get_incidents_on_posts.sql", cur, id)
+    }
+
+    # Extraction des postes distincts
+    posts = return_response["posts"]
+    posts_distinct = {elem[2]: elem[3] for elem in posts}.items()
+    return_response["posts_distinct"] = list(posts_distinct)
     
     return return_response
