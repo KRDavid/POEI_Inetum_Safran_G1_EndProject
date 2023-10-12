@@ -19,16 +19,20 @@ def get_datas(cur, id):
         res = cur.execute(query, [str(id)])
         return res.fetchall()
 
-    # Récupération des données pour la page de garde
-    return_response = {
-        "desc": fetch_data_from_file("./sql/return_desc.sql", cur, id)[0][0],
-        "incidents": fetch_data_from_file("./sql/return_all_incidents.sql", cur, id),
-        "posts": fetch_data_from_file("./sql/get_incidents_on_posts.sql", cur, id)
-    }
 
-    # Extraction des postes distincts
-    posts = return_response["posts"]
-    posts_distinct = {elem[2]: elem[3] for elem in posts}.items()
-    return_response["posts_distinct"] = list(posts_distinct)
+    try:
+        # Récupération des données pour la page de garde
+        return_response = {
+            "desc": fetch_data_from_file("./sql/return_desc.sql", cur, id)[0][0],
+            "incidents": fetch_data_from_file("./sql/return_all_incidents.sql", cur, id),
+            "posts": fetch_data_from_file("./sql/get_incidents_on_posts.sql", cur, id)
+        }
+
+        # Extraction des postes distincts
+        posts = return_response["posts"]
+        posts_distinct = {elem[2]: elem[3] for elem in posts}.items()
+        return_response["posts_distinct"] = list(posts_distinct)
+    except:
+        return "error"
     
     return return_response
