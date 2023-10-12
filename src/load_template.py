@@ -82,7 +82,6 @@ def create_pdf(data):
 
     # Obtenir les numéros de page pour chaque section et poste
     pages_per_post = get_poste_pages(pdfPath, data['posts_distinct'])
-    print(pages_per_post)
 
     outputText = template.render(
         vehicule=data, 
