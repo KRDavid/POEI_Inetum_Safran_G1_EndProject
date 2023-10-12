@@ -21,13 +21,16 @@ def notify_other_server(data):
 # Récupération de la liste des véhicules
 @app.route('/get_vehicules/')
 def get_vehicules():
-    with sqlite3.connect("sql/database.db") as con:  # Utilisation d'un context manager pour la gestion de la connexion
-        cur = con.cursor()
-        res = cur.execute("SELECT * FROM vehicule")
-        results = res.fetchall()
+    try:
+        with sqlite3.connect("sql/database.db") as con:  # Utilisation d'un context manager pour la gestion de la connexion
+            cur = con.cursor()
+            res = cur.execute("SELECT * FROM vehicule")
+            results = res.fetchall()
+    except:
+        return ("An error occured", 500)
 
     data = [{"id": id_, "desc": name} for id_, name in results]
-    return jsonify(data)
+    return (jsonify(data), 200)
 
 # Générer un PDF récapitulatif pour un véhicule spécifique
 @app.route('/get_summary/<int:id>')
@@ -38,6 +41,8 @@ def generate_pdf_summary_file(id: int):
     with sqlite3.connect("sql/database.db") as con:
         cur = con.cursor()
         data = query_database.get_datas(cur, id)
+        if data == "error":
+            return ("An error occured", 500)
     
     download = load_template.create_pdf(data)
 
