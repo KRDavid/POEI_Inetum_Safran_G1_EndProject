@@ -23,11 +23,11 @@
 * Ouvrez une console de commande et naviguez jusqu'au dossier racine du projet
 * Executez ```python notif.py```
 * Attendez que le serveur se lance
-* Dans votre navigateur, allez sur ```http://127.0.0.1:8000```
+* Le port du serveur devrait être ```5001```
 
 ### Lancement du client
 * Ouvrez une console de commande et naviguez jusqu'au dossier ```client```
 * Executez ```python -m http.server 8000```
 * Attendez que le serveur se lance
-* Le port du serveur devrait être ```5001```
+* Dans votre navigateur, allez sur ```http://127.0.0.1:8000```
 
